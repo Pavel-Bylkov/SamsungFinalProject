@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Samsung Final</string>
+    <string name="new_search">New Search</string>
+    <string name="txt_history">History:</string>
+    <string name="clear_history">Clear history</string>
+    <string name="home">To Main</string>
 </resources>
