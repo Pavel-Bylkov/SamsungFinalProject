@@ -9,5 +9,6 @@
     <string name="date_end">To:</string>
     <string name="choice">Сhoose</string>
     <string name="find">Find</string>
+    <string name="events_list_title">Events</string>
 
 </resources>

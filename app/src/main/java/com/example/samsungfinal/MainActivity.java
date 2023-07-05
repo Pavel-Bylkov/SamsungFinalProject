@@ -20,9 +20,16 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class MainActivity extends AppCompatActivity {
 
     public final String TAG = "MainActivity";
+    static final String HOST = "https://kudago.com/public-api/v1.4";
     Button bSearch;
 
     @Override
@@ -34,31 +41,7 @@ public class MainActivity extends AppCompatActivity {
         bSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Data myData = new Data.Builder()
-                        .putString("keyA", "value1")
-                        .putInt("keyB", 1)
-                        .build();
 
-                OneTimeWorkRequest work =
-                        new OneTimeWorkRequest.Builder(MyWorkerRequest.class)
-                                .setInputData(myData)
-                                .build();
-                WorkManager.getInstance(getApplicationContext()).enqueue(work);
-                WorkManager.getInstance(getApplicationContext()).getWorkInfoByIdLiveData(work.getId())
-                        .observe(MainActivity.this, new Observer() {
-                            @Override
-                            public void onChanged(Object o) {
-                                WorkInfo workInfo = (WorkInfo)o;
-                                if (workInfo != null) {
-                                    Toast.makeText(getApplicationContext(),"Second Thread work", Toast.LENGTH_SHORT).show();
-                                    Log.d(TAG, "WorkInfo received: state: " + workInfo.getState());
-                                    String message = workInfo.getOutputData().getString("keyC");
-                                    int i = workInfo.getOutputData().getInt("keyD", 0);
-                                    Log.d(TAG, "message: " + message + " " + i);
-                                }
-                            }
-
-                        });
                 Intent intentSearch = new Intent(MainActivity.this, SearchActivity.class);
                 startActivity(intentSearch);
             }
@@ -79,19 +62,19 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private TempHistory[] getHistory() {
-        TempHistory[] arr = new TempHistory[3];
-
-        String[] cities = {"Novosibirsk", "Omsk", "Tomsk"};
-        String[] date = {"20 june 2023", "21 june 2023", "22 june 2023"};
-        int[] idArr = {1, 2, 3};
-
-        for (int i = 0; i < arr.length; i++) {
-            TempHistory history = new TempHistory(idArr[i], cities[i], date[i], date[i]);
-            arr[i] = history;
-        }
-        return arr;
-    }
+//    private TempHistory[] getHistory() {
+//        TempHistory[] arr = new TempHistory[3];
+//
+//        String[] cities = {"Novosibirsk", "Omsk", "Tomsk"};
+//        String[] date = {"20 june 2023", "21 june 2023", "22 june 2023"};
+//        int[] idArr = {1, 2, 3};
+//
+//        for (int i = 0; i < arr.length; i++) {
+//            TempHistory history = new TempHistory(idArr[i], cities[i], date[i], date[i]);
+//            arr[i] = history;
+//        }
+//        return arr;
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -117,5 +100,30 @@ public class MainActivity extends AppCompatActivity {
 
     private void clearHistory() {
 
+    }
+
+    void getEvents(String city, String date_from_ms, String date_to_ms) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(HOST)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        RestApi service = retrofit.create(RestApi.class);
+        Call<EventShortList> call = service.events("ru", city, date_from_ms, date_to_ms);
+        call.enqueue(new Callback<EventShortList>() {
+            @Override
+            public void onResponse(Call<EventShortList> call, Response<EventShortList> response) {
+                try {
+                    EventShortList events = response.body();
+
+                    textView.setText("Предиктор : " + textWord);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            @Override
+            public void onFailure(Call<EventShortList> call, Throwable t) {
+                call.cancel();
+            }
+        });
     }
 }

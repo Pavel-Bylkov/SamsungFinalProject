@@ -15,7 +15,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Novosibirsk"
             android:gravity="center"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textSize="24sp"/>
@@ -26,8 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textSize="18sp"
-            android:gravity="center"
-            android:text="20 july"/>
+            android:gravity="center"/>
 
     </LinearLayout>
 
@@ -39,6 +37,6 @@
         android:adjustViewBounds="true"
         android:padding="4dp"
         android:scaleType="fitCenter"
-        android:src="@drawable/delete__icon"/>
+        android:src="@drawable/detail"/>
 
 </LinearLayout>

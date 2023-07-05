@@ -19,64 +19,51 @@
         android:textSize="20sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_weight="2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="@string/date_start"/>
-        <EditText
-            android:layout_weight="1"
-            android:id="@+id/date_start"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:hint="today"/>
-        <Button
-            android:layout_weight="2"
-            android:id="@+id/date_picker_start"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="@string/choice"/>
-    </LinearLayout>
 
-    <LinearLayout
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_weight="2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="@string/date_start"/>
-        <EditText
-            android:layout_weight="1"
-            android:id="@+id/date_end"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:hint="today"/>
-        <Button
-            android:layout_weight="2"
-            android:id="@+id/date_picker_end"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="@string/choice"/>
-    </LinearLayout>
+        android:textSize="20sp"
+        android:text="@string/date_start"/>
+    <EditText
+        android:id="@+id/date_start"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:hint="today"/>
+    <Button
+        android:id="@+id/date_picker_start"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="setDateStart"
+        android:textSize="20sp"
+        android:text="@string/choice"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="@string/date_end"/>
+    <EditText
+        android:id="@+id/date_end"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:hint="today"/>
+    <Button
+        android:id="@+id/date_picker_end"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:onClick="setDateEnd"
+        android:text="@string/choice"/>
 
     <Button
         android:id="@+id/find"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20sp"
-        android:gravity="bottom"
+        android:layout_gravity="bottom"
         android:text="@string/find"/>
 
 </LinearLayout>
