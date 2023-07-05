@@ -69,7 +69,7 @@ public class HistoryAdapter extends BaseAdapter {
         bDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, EventsListActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                Intent intent = new Intent(context, EventsListActivity.class); //.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("value", md);
                 intent.putExtras(bundle);

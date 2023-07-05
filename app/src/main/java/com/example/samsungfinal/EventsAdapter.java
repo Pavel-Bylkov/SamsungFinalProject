@@ -11,22 +11,23 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class EventsAdapter extends BaseAdapter {
     Context context;
     private final LayoutInflater mLayoutInflater;
-    private ArrayList<EventShort> arrayMyTempHistory;
+    private List<EventShort> arrayMyTempHistory;
 
-    public EventsAdapter (Context ctx, ArrayList<EventShort> arr) {
+    public EventsAdapter (Context ctx, List<EventShort> arr) {
         context = ctx;
         mLayoutInflater = LayoutInflater.from(ctx);
         setArrayMyData(arr);
     }
-    public ArrayList<EventShort> getArrayMyData() {
+    public List<EventShort> getArrayMyData() {
         return arrayMyTempHistory;
     }
 
-    public void setArrayMyData(ArrayList<EventShort> arrayMyData) {
+    public void setArrayMyData(List<EventShort> arrayMyData) {
         this.arrayMyTempHistory = arrayMyData;
     }
 
@@ -60,7 +61,7 @@ public class EventsAdapter extends BaseAdapter {
         bDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, EventDetailActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                Intent intent = new Intent(context, EventDetailActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("value", md);
                 intent.putExtras(bundle);

@@ -6,9 +6,15 @@ import java.io.Serializable;
 
 public class EventShort implements Serializable {
     @SerializedName("id")
-    int id;
+    public int id;
     @SerializedName("title")
-    String title;
+    public String title;
     @SerializedName("slug")
-    String slug;
+    public String slug;
+
+    public EventShort(int id, String title, String slug) {
+        this.id = id;
+        this.title = title;
+        this.slug = slug;
+    }
 }

@@ -8,11 +8,18 @@ import java.util.List;
 
 public class EventShortList implements Serializable {
     @SerializedName("count")
-    int count;
+    public int count;
     @SerializedName("next")
-    String next;
+    public String next;
     @SerializedName("previous")
-    String previous;
+    public String previous;
     @SerializedName("results")
-    public ArrayList<EventShort> results = new ArrayList<>();
+    public List<EventShort> results= null;
+
+    public EventShortList (int count, String next, String previous, List<EventShort> results) {
+        this.count = count;
+        this.next = next;
+        this.previous = previous;
+        this.results = results;
+    }
 }
