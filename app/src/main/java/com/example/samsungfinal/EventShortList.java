@@ -2,10 +2,11 @@ package com.example.samsungfinal;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EventShortList {
+public class EventShortList implements Serializable {
     @SerializedName("count")
     int count;
     @SerializedName("next")
@@ -13,5 +14,5 @@ public class EventShortList {
     @SerializedName("previous")
     String previous;
     @SerializedName("results")
-    public List<EventShort> results = new ArrayList<>();
+    public ArrayList<EventShort> results = new ArrayList<>();
 }

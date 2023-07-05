@@ -4,10 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
-import android.text.format.DateUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,12 +28,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-
 public class SearchActivity extends AppCompatActivity {
 
     String city;
@@ -43,6 +37,8 @@ public class SearchActivity extends AppCompatActivity {
     EditText date_start;
     EditText date_end;
     Button btn_find;
+    DBHistory mDBConnector;
+    Context mContext;
 
 
 
@@ -50,6 +46,9 @@ public class SearchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+
+        mContext=this;
+        mDBConnector=new DBHistory(this);
 
         Locale locale = new Locale("ru");
         Locale.setDefault(locale);
@@ -71,15 +70,18 @@ public class SearchActivity extends AppCompatActivity {
                     Date date_to = sdf.parse(date_end.getText().toString());
                     String date_from_ms = Long.toString(date_from.getTime());
                     String date_to_ms = Long.toString(date_to.getTime());
-                    Toast.makeText(getApplicationContext(),date_from_ms, Toast.LENGTH_SHORT).show();
+                    mDBConnector.insert(city, date_start.getText().toString(), date_from_ms,
+                            date_end.getText().toString(), date_to_ms);
+                    Intent intentMain = new Intent(SearchActivity.this, MainActivity.class);
+                    startActivity(intentMain);
                 } catch (ParseException e) {
                     Toast.makeText(getApplicationContext(),"Date format error", Toast.LENGTH_SHORT).show();
+                } catch (RuntimeException e) {
+                    Toast.makeText(getApplicationContext(),"Add to base error", Toast.LENGTH_SHORT).show();
                 }
 
             }
         });
-//        https://kudago.com/public-api/v1.2/events/?location=spb&actual_since=1384252440&actual_until=1384292440&is_free=1&categories=exhibition,concert
-        // https://kudago.com/public-api/v1.4/events/?lang=ru&fields=&expand=&order_by=&text_format=&ids=&location=nsk&actual_since=1444385206&actual_until=1444385405&is_free=&categories=&lon=&lat=&radius=
     }
 
 
@@ -128,12 +130,12 @@ public class SearchActivity extends AppCompatActivity {
 
     private void setSpinnerView() {
         HashMap<String, String> locations = new HashMap<>();
-        locations.put("Екатеринбург", "ekb");
-        locations.put("Казань", "kzn");
-        locations.put("Москва", "msk");
-        locations.put("Нижний Новгород", "nnv");
-        locations.put("Новосибирск", "nsk");
-        locations.put("Санкт-Петербург", "spb");
+        locations.put(getResources().getString(R.string.ekb), "ekb");
+        locations.put(getResources().getString(R.string.kzn), "kzn");
+        locations.put(getResources().getString(R.string.msk), "msk");
+        locations.put(getResources().getString(R.string.nnv), "nnv");
+        locations.put(getResources().getString(R.string.nsk), "nsk");
+        locations.put(getResources().getString(R.string.spb), "spb");
         List<String> cities = new ArrayList<String>(locations.keySet());
         Spinner spinner = findViewById(R.id.spinner_city);
         ArrayAdapter<String> adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, cities);

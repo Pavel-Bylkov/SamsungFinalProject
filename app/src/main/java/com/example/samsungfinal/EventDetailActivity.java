@@ -7,13 +7,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 public class EventDetailActivity extends AppCompatActivity {
-
+    EventShort md;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_detail);
+
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+
+        md= (EventShort) bundle.getSerializable("value");
+        Toast.makeText(getApplicationContext(),"Get " + md.title, Toast.LENGTH_SHORT).show();
     }
 
     @Override

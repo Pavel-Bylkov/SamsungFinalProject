@@ -1,12 +1,73 @@
 package com.example.samsungfinal;
 
 import android.content.Context;
-import android.widget.ArrayAdapter;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
-import androidx.annotation.NonNull;
+import java.util.ArrayList;
 
-public class EventsAdapter extends ArrayAdapter<EventShort> {
-    public EventsAdapter(@NonNull Context context, @NonNull EventShort[] objects) {
-        super(context, R.layout.adapter_item_events, objects);
+public class EventsAdapter extends BaseAdapter {
+    Context context;
+    private final LayoutInflater mLayoutInflater;
+    private ArrayList<EventShort> arrayMyTempHistory;
+
+    public EventsAdapter (Context ctx, ArrayList<EventShort> arr) {
+        context = ctx;
+        mLayoutInflater = LayoutInflater.from(ctx);
+        setArrayMyData(arr);
+    }
+    public ArrayList<EventShort> getArrayMyData() {
+        return arrayMyTempHistory;
+    }
+
+    public void setArrayMyData(ArrayList<EventShort> arrayMyData) {
+        this.arrayMyTempHistory = arrayMyData;
+    }
+
+    public int getCount () {
+        return arrayMyTempHistory.size();
+    }
+
+    public Object getItem (int position) {
+
+        return position;
+    }
+
+    public long getItemId (int position) {
+        EventShort md = arrayMyTempHistory.get(position);
+        if (md != null) {
+            return md.id;
+        }
+        return 0;
+    }
+
+    public View getView(int position, View convertView, ViewGroup parent) {
+
+        if (convertView == null)
+            convertView = mLayoutInflater.inflate(R.layout.adapter_item_events, null);
+
+        TextView title= (TextView)convertView.findViewById(R.id.item_title);
+
+        EventShort md = arrayMyTempHistory.get(position);
+        title.setText(md.title);
+        ImageButton bDetail = (ImageButton) convertView.findViewById(R.id.btn_detail);
+        bDetail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, EventDetailActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("value", md);
+                intent.putExtras(bundle);
+                context.startActivity(intent);
+            }
+        });
+        return convertView;
     }
 }
+

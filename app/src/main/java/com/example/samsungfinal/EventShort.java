@@ -2,7 +2,9 @@ package com.example.samsungfinal;
 
 import com.google.gson.annotations.SerializedName;
 
-public class EventShort {
+import java.io.Serializable;
+
+public class EventShort implements Serializable {
     @SerializedName("id")
     int id;
     @SerializedName("title")

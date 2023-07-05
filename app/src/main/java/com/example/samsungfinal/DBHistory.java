@@ -1,5 +1,6 @@
 package com.example.samsungfinal;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -17,14 +18,16 @@ public class DBHistory {
     private static final String COLUMN_ID = "id";
     private static final String COLUMN_CITY = "City";
     private static final String COLUMN_DATE_START = "DateStart";
+    private static final String COLUMN_DATE_FROM = "DateFrom";
     private static final String COLUMN_DATE_END = "DateEnd";
-    private static final String COLUMN_TIMESTAMP = "LastAccess";
+    private static final String COLUMN_DATE_TO = "DateTo";
 
     private static final int NUM_COLUMN_ID = 0;
     private static final int NUM_COLUMN_CITY = 1;
     private static final int NUM_COLUMN_DATE_START = 2;
-    private static final int NUM_COLUMN_DATE_END = 3;
-    private static final int NUM_COLUMN_TIMESTAMP = 4;
+    private static final int NUM_COLUMN_DATE_FROM = 3;
+    private static final int NUM_COLUMN_DATE_END = 4;
+    private static final int NUM_COLUMN_DATE_TO = 5;
 
     private SQLiteDatabase mDataBase;
 
@@ -33,11 +36,13 @@ public class DBHistory {
         mDataBase = mOpenHelper.getWritableDatabase();
     }
 
-    public long insert(String city,String date_start, String date_end) {
+    public long insert(String city,String date_start, String date_from, String date_end, String date_to) {
         ContentValues cv=new ContentValues();
         cv.put(COLUMN_CITY, city);
         cv.put(COLUMN_DATE_START, date_start);
+        cv.put(COLUMN_DATE_FROM, date_from);
         cv.put(COLUMN_DATE_END, date_end);
+        cv.put(COLUMN_DATE_TO, date_to);
         return mDataBase.insert(TABLE_NAME, null, cv);
     }
 
@@ -45,7 +50,9 @@ public class DBHistory {
         ContentValues cv=new ContentValues();
         cv.put(COLUMN_CITY, md.city);
         cv.put(COLUMN_DATE_START, md.date_start);
+        cv.put(COLUMN_DATE_FROM, md.date_from_ms);
         cv.put(COLUMN_DATE_END, md.date_end);
+        cv.put(COLUMN_DATE_TO, md.date_to_ms);
         return mDataBase.update(TABLE_NAME, cv, COLUMN_ID + " = ?",new String[] { String.valueOf(md.id)});
     }
 
@@ -64,12 +71,14 @@ public class DBHistory {
         mCursor.moveToFirst();
         String City = mCursor.getString(NUM_COLUMN_CITY);
         String DateStart = mCursor.getString(NUM_COLUMN_DATE_START);
+        String DateFrom = mCursor.getString(NUM_COLUMN_DATE_FROM);
         String DateEnd = mCursor.getString(NUM_COLUMN_DATE_END);
-        return new TempHistory(id, City, DateStart, DateEnd);
+        String DateTo = mCursor.getString(NUM_COLUMN_DATE_TO);
+        return new TempHistory(id, City, DateStart, DateFrom, DateEnd, DateTo);
     }
 
     public ArrayList<TempHistory> selectAll() {
-        Cursor mCursor = mDataBase.query(TABLE_NAME, null, null, null, null, null, COLUMN_TIMESTAMP);
+        @SuppressLint("Recycle") Cursor mCursor = mDataBase.query(TABLE_NAME, null, null, null, null, null, COLUMN_ID + " DESC");
 
         ArrayList<TempHistory> arr = new ArrayList<TempHistory>();
         mCursor.moveToFirst();
@@ -78,8 +87,10 @@ public class DBHistory {
                 long id = mCursor.getLong(NUM_COLUMN_ID);
                 String City = mCursor.getString(NUM_COLUMN_CITY);
                 String DateStart = mCursor.getString(NUM_COLUMN_DATE_START);
+                String DateFrom = mCursor.getString(NUM_COLUMN_DATE_FROM);
                 String DateEnd = mCursor.getString(NUM_COLUMN_DATE_END);
-                arr.add(new TempHistory(id, City, DateStart, DateEnd));
+                String DateTo = mCursor.getString(NUM_COLUMN_DATE_TO);
+                arr.add(new TempHistory(id, City, DateStart, DateFrom, DateEnd, DateTo));
             } while (mCursor.moveToNext());
         }
         return arr;
@@ -96,8 +107,9 @@ public class DBHistory {
                     COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     COLUMN_CITY+ " TEXT, " +
                     COLUMN_DATE_START + " TEXT, " +
+                    COLUMN_DATE_FROM + " TEXT, " +
                     COLUMN_DATE_END + " TEXT," +
-                    COLUMN_TIMESTAMP + " DEFAULT CURRENT_TIMESTAMP);";
+                    COLUMN_DATE_TO + " TEXT);";
             db.execSQL(query);
         }
 

@@ -10,5 +10,11 @@
     <string name="choice">Сhoose</string>
     <string name="find">Find</string>
     <string name="events_list_title">Events</string>
+    <string name="ekb">Yekaterinburg</string>
+    <string name="kzn">Kazan</string>
+    <string name="msk">Moscow</string>
+    <string name="nnv">Nizhny Novgorod</string>
+    <string name="nsk">Novosibirsk</string>
+    <string name="spb">St. Petersburg</string>
 
 </resources>
