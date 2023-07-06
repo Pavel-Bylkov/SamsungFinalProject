@@ -12,6 +12,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -63,7 +64,14 @@ public class HistoryAdapter extends BaseAdapter {
         TextView date = (TextView)convertView.findViewById(R.id.item_date);
 
         TempHistory md = arrayMyTempHistory.get(position);
-        city.setText(md.city);
+        HashMap<String, String> locations = new HashMap<>();
+        locations.put("ekb", convertView.getResources().getString(R.string.ekb));
+        locations.put("kzn", convertView.getResources().getString(R.string.kzn));
+        locations.put("msk", convertView.getResources().getString(R.string.msk));
+        locations.put("nnv", convertView.getResources().getString(R.string.nnv));
+        locations.put("nsk", convertView.getResources().getString(R.string.nsk));
+        locations.put("spb", convertView.getResources().getString(R.string.spb));
+        city.setText(locations.get(md.city));
         date.setText(String.format("%s - %s", md.date_start, md.date_end));
         ImageButton bDetail = (ImageButton) convertView.findViewById(R.id.btn_del);
         bDetail.setOnClickListener(new View.OnClickListener() {

@@ -30,7 +30,7 @@ public class EventDetailActivity extends AppCompatActivity {
     EventShort md;
     EventDatesAdapter date_adapter;
     EventImagesAdapter image_adapter;
-
+    EventTagsAdapter tag_adapter;
     EventCategoriesAdapter category_adapter;
     Context mContext;
     RestApi apiInterface;
@@ -114,14 +114,14 @@ public class EventDetailActivity extends AppCompatActivity {
                         publication_date.setText(sdf.format(event.publication_date)); //- дата публикации
 
                         webView.loadDataWithBaseURL(null, event.description, "text/html", "utf-8", null);
-//                        event.tags;
                         date_adapter = new EventDatesAdapter(mContext, event.dates);
                         lv_dates.setAdapter(date_adapter);
                         image_adapter = new EventImagesAdapter(mContext, event.images);
                         lv_images.setAdapter(image_adapter);
                         category_adapter = new EventCategoriesAdapter(mContext, event.categories);
                         lv_categories.setAdapter(category_adapter);
-//                        lv_tags.setAdapter(adapter);
+                        tag_adapter = new EventTagsAdapter(mContext, event.tags);
+                        lv_tags.setAdapter(tag_adapter);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
