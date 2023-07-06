@@ -54,9 +54,15 @@ public class EventsAdapter extends BaseAdapter {
             convertView = mLayoutInflater.inflate(R.layout.adapter_item_events, null);
 
         TextView title= (TextView)convertView.findViewById(R.id.item_title);
+        TextView dates= (TextView)convertView.findViewById(R.id.item_dates);
+        TextView place= (TextView)convertView.findViewById(R.id.item_place);
+        TextView age= (TextView)convertView.findViewById(R.id.item_age);
 
         EventShort md = arrayMyTempHistory.get(position);
         title.setText(md.title);
+        dates.setText(md.dates);
+        place.setText(md.place);
+        age.setText(String.format("%s - %s", convertView.getResources().getString(R.string.age), md.age_restriction));
         ImageButton bDetail = (ImageButton) convertView.findViewById(R.id.btn_detail);
         bDetail.setOnClickListener(new View.OnClickListener() {
             @Override

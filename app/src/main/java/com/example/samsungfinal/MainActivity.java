@@ -46,16 +46,6 @@ public class MainActivity extends AppCompatActivity {
         adapter = new HistoryAdapter(mContext,mDBConnector.selectAll());
         ListView lv = (ListView) findViewById(R.id.list_history);
         lv.setAdapter(adapter);
-//        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Toast.makeText(getApplicationContext(),"Click to item ", Toast.LENGTH_SHORT).show();
-//                long id_history =  ((TempHistory)parent.getItemAtPosition(position)).id;
-//                Intent intentResult = new Intent(MainActivity.this, EventsListActivity.class);
-//                intentResult.putExtra("id_history", id_history);
-//                startActivity(intentResult);
-//            }
-//        });
     }
     private void updateList () {
         adapter.setArrayMyData(mDBConnector.selectAll());

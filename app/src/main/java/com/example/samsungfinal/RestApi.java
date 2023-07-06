@@ -10,5 +10,7 @@ public interface RestApi {
     @GET("events")
     Call<EventShortList> events(@Query("lang")String lang, @Query("location") String location,
                                 @Query("actual_since") String actual_since,
-                                @Query("actual_until") String actual_until);
+                                @Query("actual_until") String actual_until,
+                                @Query("page") String page, @Query("page_size") String page_size,
+                                @Query("fields") String fields);
 }

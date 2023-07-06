@@ -16,5 +16,6 @@
     <string name="nnv">Nizhny Novgorod</string>
     <string name="nsk">Novosibirsk</string>
     <string name="spb">St. Petersburg</string>
+    <string name="age">Age restriction</string>
 
 </resources>

@@ -3,14 +3,17 @@ package com.example.samsungfinal;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -25,6 +28,7 @@ public class EventsListActivity extends AppCompatActivity {
     Context mContext;
     RestApi apiInterface;
     ListView lv;
+    TextView title;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,29 +41,42 @@ public class EventsListActivity extends AppCompatActivity {
 
         md= (TempHistory) bundle.getSerializable("value");
 
+        title = (TextView)findViewById(R.id.events_title);
+        title.setText(String.format("Events - %s", md.city));
+
         lv = (ListView) findViewById(R.id.list_events);
 
+        getEvents();
+
+    }
+
+    void getEvents () {
         apiInterface = APIClient.getClient().create(RestApi.class);
 
-        Call<EventShortList> call = apiInterface.events("ru", md.city, md.date_from_ms, md.date_to_ms);;
+        String page = "";
+        String page_size = "100";
+        String fields = "id,title,slug,dates,place,age_restriction";
+
+        Call<EventShortList> call = apiInterface.events("ru", md.city, md.date_from_ms,
+                md.date_to_ms, page, page_size, fields);
         call.enqueue(new Callback<EventShortList>() {
             @Override
             public void onResponse(@NonNull Call<EventShortList> call, @NonNull Response<EventShortList> response) {
-                if(response.isSuccessful()) {
-                    Toast.makeText(getApplicationContext(), "Get " + response.toString(), Toast.LENGTH_SHORT).show();
+                if(!response.isSuccessful()) {
+                    List<EventShort> results = new ArrayList<>();
+                    results.add(new EventShort(0, response.toString(), "", "", "", ""));
+                    adapter = new EventsAdapter(mContext, results);
+                    lv.setAdapter(adapter);
                 }
                 try {
                     EventShortList resource = response.body();
                     Integer count = null;
                     List<EventShort> results = null;
                     if (resource != null) {
-                        Toast.makeText(getApplicationContext(),"Get " + resource.toString(), Toast.LENGTH_SHORT).show();
                         count = resource.count;
                         String next = resource.next;
                         String previous = resource.previous;
                         results = resource.results;
-                        Toast.makeText(getApplicationContext(), "Success" + count.toString(),
-                                Toast.LENGTH_SHORT).show();
                         adapter = new EventsAdapter(mContext, results);
                         lv.setAdapter(adapter);
                     }
@@ -73,13 +90,6 @@ public class EventsListActivity extends AppCompatActivity {
                 call.cancel();
             }
         });
-
-    }
-
-    @Override
-    protected void onStart(){
-        super.onStart();
-//        getEvents(md.city, md.date_from_ms, md.date_to_ms, "");
     }
 
     @Override
@@ -98,31 +108,4 @@ public class EventsListActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    void getEvents(String city, String date_from_ms, String date_to_ms, String page) {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(RestApi.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        RestApi service = retrofit.create(RestApi.class);
-        Call<EventShortList> call = service.events("ru", city, date_from_ms, date_to_ms);
-        call.enqueue(new Callback<EventShortList>() {
-            @Override
-            public void onResponse(Call<EventShortList> call, Response<EventShortList> response) {
-                try {
-                    Toast.makeText(getApplicationContext(), "Success" + response.body().count,
-                            Toast.LENGTH_SHORT).show();
-//                    EventShortList events = response.body();
-//                    adapter = new EventsAdapter(mContext, events.results);
-//                    lv.setAdapter(adapter);
-//                    Toast.makeText(getApplicationContext(),"Get " + events.count, Toast.LENGTH_SHORT).show();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-            @Override
-            public void onFailure(Call<EventShortList> call, Throwable t) {
-                call.cancel();
-            }
-        });
-    }
 }

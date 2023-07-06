@@ -68,8 +68,8 @@ public class SearchActivity extends AppCompatActivity {
                 try {
                     Date date_from = sdf.parse(date_start.getText().toString());
                     Date date_to = sdf.parse(date_end.getText().toString());
-                    String date_from_ms = Long.toString(date_from.getTime());
-                    String date_to_ms = Long.toString(date_to.getTime());
+                    String date_from_ms = Long.toString(date_from.getTime()/1000);
+                    String date_to_ms = Long.toString(date_to.getTime()/1000);
                     mDBConnector.insert(city, date_start.getText().toString(), date_from_ms,
                             date_end.getText().toString(), date_to_ms);
                     Intent intentMain = new Intent(SearchActivity.this, MainActivity.class);
