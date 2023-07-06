@@ -35,7 +35,7 @@ public class EventDetail implements Serializable {
     @SerializedName("tags")
     public List<String> tags; //- тэги события
 
-    class Date implements Serializable {
+    static class Date implements Serializable {
         @SerializedName("start_date")
         public String start_date;
         @SerializedName("start_time")
@@ -50,7 +50,7 @@ public class EventDetail implements Serializable {
         public long end;
     }
 
-    class Place implements Serializable {
+    static class Place implements Serializable {
         @SerializedName("id")
         public int id; //- идентификатор
         @SerializedName("title")
@@ -63,17 +63,16 @@ public class EventDetail implements Serializable {
         public String site_url;
     }
 
-    class Location implements Serializable {
+    static class Location implements Serializable {
         @SerializedName("slug")
         public String slug;
         @SerializedName("name")
         public String name;
     }
 
-    class Image implements Serializable {
+    static class Image implements Serializable {
         @SerializedName("image")
         public String image;
     }
 }
 
-// id,publication_date,dates,title,slug,place,description,location,categories,age_restriction,price,images,site_url,tags

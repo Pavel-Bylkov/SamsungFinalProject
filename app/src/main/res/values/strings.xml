@@ -24,5 +24,7 @@
     <string name="phone">Phone:</string>
     <string name="kudago">Detail about event on kudago.com:</string>
     <string name="categories">Categories:</string>
+    <string name="price">Price:</string>
+    <string name="publication_date">Publication date:</string>
 
 </resources>

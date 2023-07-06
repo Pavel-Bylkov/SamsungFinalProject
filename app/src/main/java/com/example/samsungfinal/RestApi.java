@@ -16,7 +16,7 @@ public interface RestApi {
                                 @Query(value = "fields", encoded=true) String fields);
     // events/60843/?lang=&fields=
     @GET("events/{id}")
-    Call<EventShortList> event(@Path("id") int id, @Query("lang")String lang,
+    Call<EventDetail> event(@Path("id") int id, @Query("lang")String lang,
                                @Query(value = "fields", encoded=true) String fields,
                                @Query(value = "expand", encoded=true) String expand);
 }

@@ -94,7 +94,7 @@ public class EventsListActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<EventShortList> call, Throwable t) {
+            public void onFailure(@NonNull Call<EventShortList> call, @NonNull Throwable t) {
                 call.cancel();
             }
         });
