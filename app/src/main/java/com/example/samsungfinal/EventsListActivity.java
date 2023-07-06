@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import retrofit2.Call;
@@ -42,7 +43,14 @@ public class EventsListActivity extends AppCompatActivity {
         md= (TempHistory) bundle.getSerializable("value");
 
         title = (TextView)findViewById(R.id.events_title);
-        title.setText(String.format("Events - %s", md.city));
+        HashMap<String, String> locations = new HashMap<>();
+        locations.put("ekb", getResources().getString(R.string.ekb));
+        locations.put("kzn", getResources().getString(R.string.kzn));
+        locations.put("msk", getResources().getString(R.string.msk));
+        locations.put("nnv", getResources().getString(R.string.nnv));
+        locations.put("nsk", getResources().getString(R.string.nsk));
+        locations.put("spb", getResources().getString(R.string.spb));
+        title.setText(String.format("Events - %s", locations.get(md.city)));
 
         lv = (ListView) findViewById(R.id.list_events);
 
@@ -53,9 +61,9 @@ public class EventsListActivity extends AppCompatActivity {
     void getEvents () {
         apiInterface = APIClient.getClient().create(RestApi.class);
 
-        String page = "";
-        String page_size = "100";
-        String fields = "id,title,slug,dates,place,age_restriction";
+        String page = "1";
+        String page_size = "80";
+        String fields = "id,title,slug,age_restriction";
 
         Call<EventShortList> call = apiInterface.events("ru", md.city, md.date_from_ms,
                 md.date_to_ms, page, page_size, fields);
@@ -64,7 +72,7 @@ public class EventsListActivity extends AppCompatActivity {
             public void onResponse(@NonNull Call<EventShortList> call, @NonNull Response<EventShortList> response) {
                 if(!response.isSuccessful()) {
                     List<EventShort> results = new ArrayList<>();
-                    results.add(new EventShort(0, response.toString(), "", "", "", ""));
+                    results.add(new EventShort(0, response.toString(), "", ""));
                     adapter = new EventsAdapter(mContext, results);
                     lv.setAdapter(adapter);
                 }
