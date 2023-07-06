@@ -17,5 +17,12 @@
     <string name="nsk">Novosibirsk</string>
     <string name="spb">St. Petersburg</string>
     <string name="age">Age restriction</string>
+    <string name="when">When:</string>
+    <string name="description">Description:</string>
+    <string name="location">Location:</string>
+    <string name="address">Address:</string>
+    <string name="phone">Phone:</string>
+    <string name="kudago">Detail about event on kudago.com:</string>
+    <string name="categories">Categories:</string>
 
 </resources>

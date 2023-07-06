@@ -5,5 +5,116 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".EventDetailActivity">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <!-- title; //- название   -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/when"/>
+        <!-- List<Date> dates; //- даты проведения
+            {start_date;start_time;start;end_date;end_time;end; }  -->
+        <ListView
+            android:id="@+id/event_list_dates"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </ListView>
+        <!-- age_restriction; //- возрастное ограничение  -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <!-- List<Image> images; //- картинки
+                {  image; }  -->
+        <ListView
+            android:id="@+id/event_list_images"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </ListView>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/when"/>
+        <!-- TextArea description; //- описание  -->
+        <WebView
+            android:id="@+id/event_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/location"/>
+        <!-- Location location; //- город проведения
+                { name;}  -->
+        <TextView
+            android:id="@+id/event_city_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <!-- Place place; //- место проведения
+            {title;address;phone;site_url;}  -->
+        <TextView
+            android:id="@+id/event_place_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/address"/>
+        <TextView
+            android:id="@+id/event_place_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/phone"/>
+        <TextView
+            android:id="@+id/event_place_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/event_place_site_url"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <!-- site_url; //- адрес события на сайте kudago.com  -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/kudago"/>
+        <TextView
+            android:id="@+id/event_site_url"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <!-- List<String> categories; //- список категорий  -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/categories"/>
+        <ListView
+            android:id="@+id/event_list_categories"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </ListView>
+        <!-- List<String> tags; //- тэги события -->
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </ListView>
+        <!-- price; //- стоимость  -->
+        <TextView
+            android:id="@+id/event_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <!-- publication_date; //- дата публикации  -->
+        <TextView
+            android:id="@+id/event_publication_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </ScrollView>
 
 </LinearLayout>
