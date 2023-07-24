@@ -15,10 +15,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.annotations.SerializedName;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.example.samsungfinal.eventdetail.EventCategoriesAdapter;
+import com.example.samsungfinal.eventdetail.EventDatesAdapter;
+import com.example.samsungfinal.eventdetail.EventDetail;
+import com.example.samsungfinal.eventdetail.EventImagesAdapter;
+import com.example.samsungfinal.eventdetail.EventTagsAdapter;
+import com.example.samsungfinal.eventslist.EventShort;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -49,7 +51,7 @@ public class EventDetailActivity extends AppCompatActivity {
         Bundle bundle = intent.getExtras();
 
         md= (EventShort) bundle.getSerializable("value");
-        Toast.makeText(getApplicationContext(),"Get " + md.title, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(),"Get " + md.title, Toast.LENGTH_SHORT).show();
 
         // title; //- название
         title = (TextView) findViewById(R.id.event_title);
@@ -124,7 +126,8 @@ public class EventDetailActivity extends AppCompatActivity {
                         lv_tags.setAdapter(tag_adapter);
                     }
                 } catch (Exception e) {
-                    e.printStackTrace();
+//                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(),"Get event error", Toast.LENGTH_SHORT).show();
                 }
             }
 

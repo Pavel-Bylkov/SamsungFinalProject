@@ -1,4 +1,4 @@
-package com.example.samsungfinal;
+package com.example.samsungfinal.eventdetail;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -9,7 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.TextView;
+
+import com.example.samsungfinal.R;
+import com.example.samsungfinal.eventdetail.EventDetail;
 
 import java.io.InputStream;
 import java.util.List;

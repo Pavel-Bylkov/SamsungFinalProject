@@ -1,4 +1,4 @@
-package com.example.samsungfinal;
+package com.example.samsungfinal.eventdetail;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import com.example.samsungfinal.R;
 
 import java.util.List;
 

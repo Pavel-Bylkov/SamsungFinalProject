@@ -1,4 +1,4 @@
-package com.example.samsungfinal;
+package com.example.samsungfinal.eventslist;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,7 +10,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import com.example.samsungfinal.EventDetailActivity;
+import com.example.samsungfinal.R;
+
 import java.util.List;
 
 public class EventsAdapter extends BaseAdapter {

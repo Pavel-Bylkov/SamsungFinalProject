@@ -1,4 +1,4 @@
-package com.example.samsungfinal;
+package com.example.samsungfinal.eventdetail;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -35,7 +35,7 @@ public class EventDetail implements Serializable {
     @SerializedName("tags")
     public List<String> tags; //- тэги события
 
-    static class Date implements Serializable {
+    public static class Date implements Serializable {
         @SerializedName("start_date")
         public String start_date;
         @SerializedName("start_time")
@@ -50,7 +50,7 @@ public class EventDetail implements Serializable {
         public long end;
     }
 
-    static class Place implements Serializable {
+    public static class Place implements Serializable {
         @SerializedName("id")
         public int id; //- идентификатор
         @SerializedName("title")
@@ -63,14 +63,14 @@ public class EventDetail implements Serializable {
         public String site_url;
     }
 
-    static class Location implements Serializable {
+    public static class Location implements Serializable {
         @SerializedName("slug")
         public String slug;
         @SerializedName("name")
         public String name;
     }
 
-    static class Image implements Serializable {
+    public static class Image implements Serializable {
         @SerializedName("image")
         public String image;
     }

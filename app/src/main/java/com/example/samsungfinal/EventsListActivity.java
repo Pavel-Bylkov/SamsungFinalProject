@@ -3,16 +3,30 @@ package com.example.samsungfinal;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.samsungfinal.eventslist.EventShort;
+import com.example.samsungfinal.eventslist.EventShortList;
+import com.example.samsungfinal.eventslist.EventsAdapter;
+import com.google.gson.Gson;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,8 +34,6 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class EventsListActivity extends AppCompatActivity {
     TempHistory md;
@@ -30,6 +42,7 @@ public class EventsListActivity extends AppCompatActivity {
     RestApi apiInterface;
     ListView lv;
     TextView title;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,9 +66,84 @@ public class EventsListActivity extends AppCompatActivity {
         title.setText(String.format("Events - %s", locations.get(md.city)));
 
         lv = (ListView) findViewById(R.id.list_events);
+//      Добавил загрузку в отдельном потоке через AsyncTask
+        new JsonDataTask().execute();
+//      Второй вариант через Retrofit оставил для себя
+//        getEvents();
 
-        getEvents();
+    }
 
+    private class JsonDataTask extends AsyncTask<Void, Void, JSONObject>
+    {
+        @Override
+        protected JSONObject doInBackground(Void... params)
+        {
+            String BASE_URL = "https://kudago.com/public-api/v1.4/events/?";
+            String page = "1";
+            String page_size = "80";
+            String fields = "id,title,slug,age_restriction";
+            String str = String.format("%slang=%slocation=%sactual_since=%sactual_until=%spage=%spage_size=%sfields=%s",
+                    BASE_URL, "ru", md.city, md.date_from_ms, md.date_to_ms, page, page_size, fields);
+            URLConnection urlConn = null;
+            BufferedReader bufferedReader = null;
+            try
+            {
+                URL url = new URL(str);
+                urlConn = url.openConnection();
+                bufferedReader = new BufferedReader(new InputStreamReader(urlConn.getInputStream()));
+
+                StringBuffer stringBuffer = new StringBuffer();
+                String line;
+                while ((line = bufferedReader.readLine()) != null)
+                {
+                    stringBuffer.append(line);
+                }
+
+                return new JSONObject(stringBuffer.toString());
+            }
+            catch(Exception ex)
+            {
+                Log.e("App", "JsonDataTask", ex);
+                return null;
+            }
+            finally
+            {
+                if(bufferedReader != null)
+                {
+                    try {
+                        bufferedReader.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject response)
+        {
+            if(response != null)
+            {
+                EventShortList resource = new Gson().fromJson(String.valueOf(response), EventShortList.class);
+                Integer count = null;
+                List<EventShort> results = null;
+                if (resource != null) {
+                    count = resource.count;
+                    String next = resource.next;
+                    String previous = resource.previous;
+                    results = resource.results;
+                    adapter = new EventsAdapter(mContext, results);
+                    lv.setAdapter(adapter);
+                }
+            }
+            else {
+                List<EventShort> results = new ArrayList<>();
+                results.add(new EventShort(0, "Error in connection", "", ""));
+                adapter = new EventsAdapter(mContext, results);
+                lv.setAdapter(adapter);
+                Toast.makeText(getApplicationContext(),"Get list events error", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     void getEvents () {
@@ -89,7 +177,8 @@ public class EventsListActivity extends AppCompatActivity {
                         lv.setAdapter(adapter);
                     }
                 } catch (Exception e) {
-                    e.printStackTrace();
+//                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(),"Get list events error", Toast.LENGTH_SHORT).show();
                 }
             }
 

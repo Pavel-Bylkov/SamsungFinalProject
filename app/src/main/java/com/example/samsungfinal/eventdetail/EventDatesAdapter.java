@@ -1,4 +1,4 @@
-package com.example.samsungfinal;
+package com.example.samsungfinal.eventdetail;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -8,6 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import com.example.samsungfinal.R;
+import com.example.samsungfinal.eventdetail.EventDetail;
 
 import java.util.List;
 

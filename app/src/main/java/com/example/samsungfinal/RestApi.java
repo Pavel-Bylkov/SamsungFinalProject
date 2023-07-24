@@ -1,5 +1,8 @@
 package com.example.samsungfinal;
 
+import com.example.samsungfinal.eventdetail.EventDetail;
+import com.example.samsungfinal.eventslist.EventShortList;
+
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -17,6 +20,6 @@ public interface RestApi {
     // events/60843/?lang=&fields=
     @GET("events/{id}")
     Call<EventDetail> event(@Path("id") int id, @Query("lang")String lang,
-                               @Query(value = "fields", encoded=true) String fields,
-                               @Query(value = "expand", encoded=true) String expand);
+                            @Query(value = "fields", encoded=true) String fields,
+                            @Query(value = "expand", encoded=true) String expand);
 }
